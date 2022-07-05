@@ -19,9 +19,9 @@
                                    Margin="0,50,0,0"
                                    WidthRequest="350"
                                    HeightRequest="380"
+                                   StrokeColor="#6F6F6F"
                                    HorizontalOptions="Center"
                                    VerticalOptions="Start"
-                                   
                                    />
 
         <Entry x:Name="txtName"

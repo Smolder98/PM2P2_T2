@@ -47,11 +47,8 @@ namespace PM2P2_T2
 
             //Para limpiar -- Sign.Clear();
             Stream img = await Sign.GetImageStreamAsync(SignaturePad.Forms.SignatureImageFormat.Png);
-
             var mStream = (MemoryStream)img;
-
             Byte[] bytes = mStream.ToArray();
-
             var signature = new Signature()
             {
                 Id = 0,
@@ -60,26 +57,24 @@ namespace PM2P2_T2
                 ArrayByteImage = bytes
             };
 
+            
 
-            SignatureService signatureService = new SignatureService();
-
-            if (await signatureService.saveSignatures(signature))
+            if (await new SignatureService().saveSignatures(signature))
             {
-                
 
-                //Validacion para q se cree la carpeta donde se guardaran las imagenes
-                var folderPath = "/storage/emulated/0/Android/data/com.companyname.pm2p2_t2/files/Pictures";
-                if (!Directory.Exists(folderPath))
-                    Directory.CreateDirectory(folderPath);
-
-
-                //if(!File.Exists(Path.GetFileName(folderPath + "/" + txtName)))
-                File.WriteAllBytes(folderPath + "/"+txtName.Text + ".jpg", signature.ArrayByteImage);
+                try
+                {
+                    //Validacion para q se cree la carpeta donde se guardaran las imagenes
+                    var folderPath = "/storage/emulated/0/Android/data/com.companyname.pm2p2_t2/files/Pictures";
+                    if (!Directory.Exists(folderPath))
+                        Directory.CreateDirectory(folderPath);
 
 
-              
-
-
+                    //if(!File.Exists(Path.GetFileName(folderPath + "/" + txtName)))
+                    File.WriteAllBytes(folderPath + "/" + txtName.Text + ".png", signature.ArrayByteImage);
+                }
+                catch { }
+               
                 Message("La firmar se guardo correctamente!!");
             }
             else Message("La firmar no se pudo guardar correctamente!!");
