@@ -19,22 +19,13 @@ namespace PM2P2_T2.Service
             return (result > 0);
 
         }
-        private static Byte[] ConvertImageToByteArray(MediaFile FileFoto)
+
+
+        public async Task<List<Signature>> GetSignatures()
         {
-            if (FileFoto != null)
-            {
-                using (MemoryStream memory = new MemoryStream())
-                {
-                    Stream stream = FileFoto.GetStream();
-
-                    stream.CopyTo(memory);
-
-                    return memory.ToArray();
-                }
-            }
-
-            return null;
+            return await App.DBase.getListSignature();
         }
+
 
     }
 }

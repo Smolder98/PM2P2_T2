@@ -24,9 +24,9 @@ namespace PM2P2_T2
     
 
         //Lista de firmas
-        private void Button_Clicked(object sender, EventArgs e)
+        private async void Button_Clicked(object sender, EventArgs e)
         {
-
+            await Navigation.PushModalAsync(new View.ListPage());
         }
         //Guardar firma
         private async void Button_Clicked_1(object sender, EventArgs e)
@@ -57,30 +57,48 @@ namespace PM2P2_T2
                 ArrayByteImage = bytes
             };
 
-            
 
+            var folderPath = "/storage/emulated/0/Android/data/com.companyname.pm2p2_t2/files/Pictures";
+            var nameSignature = "";
             if (await new SignatureService().saveSignatures(signature))
             {
 
                 try
                 {
                     //Validacion para q se cree la carpeta donde se guardaran las imagenes
-                    var folderPath = "/storage/emulated/0/Android/data/com.companyname.pm2p2_t2/files/Pictures";
+                    
                     if (!Directory.Exists(folderPath))
                         Directory.CreateDirectory(folderPath);
 
 
                     //if(!File.Exists(Path.GetFileName(folderPath + "/" + txtName)))
-                    File.WriteAllBytes(folderPath + "/" + txtName.Text + ".png", signature.ArrayByteImage);
+
+                    nameSignature = txtName.Text + DateTime.Now.ToString("MMddyyyyhhmmss"); ;
+
+                    File.WriteAllBytes(folderPath + "/" + nameSignature  + ".png", signature.ArrayByteImage);
+
+                    Message("La firmar se guardo correctamente!! \nPath:" + folderPath + "/" + nameSignature + ".png");
                 }
-                catch { }
+                catch {
+                    Message("La firmar se guardo correctamente!!");
+                }
                
-                Message("La firmar se guardo correctamente!!");
+                
+
+                clear();
             }
             else Message("La firmar no se pudo guardar correctamente!!");
 
         }
 
+
+        private void clear()
+        {
+            txtName.Text = null;
+            txtDescription.Text = null;
+
+            Sign.Clear();
+        }
 
         public async void Message(string msg)
         {

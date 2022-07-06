@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:Convertidor="clr-namespace:PM2P2_T2.Convertidor"
+             x:Class="PM2P2_T2.View.ListPage">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Convertidor:ByteArrayToImage x:Key="ByteToImage"/>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <ContentPage.Content>
+
+        <StackLayout>
+
+            <Frame  BackgroundColor="#687FC7" Padding="5">
+                <Grid>
+                    <Label Text="Lista de firmas" 
+                       HorizontalOptions="Center"
+                       TextColor="White" 
+                       FontSize="30"
+                       FontAttributes="Bold"
+                       />
+
+                    <ImageButton Source="arrow.png"
+                                 HorizontalOptions="Start"
+                                 HeightRequest="25"
+                                 Margin="10,0,0,0"
+                                 BackgroundColor="Transparent"
+                                 Clicked="ImageButton_Clicked"
+                                 />
+                </Grid>
+            </Frame>
+
+            <ListView x:Name="list" 
+                      HasUnevenRows="True"
+                      ItemTapped="list_ItemTapped">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+
+                            <Grid Padding="10">
+                                
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="80" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+
+                                <Image Source="{Binding ArrayByteImage, Converter={StaticResource ByteToImage}}" 
+                                   HorizontalOptions="Start"
+                                   VerticalOptions="Fill"
+                                   WidthRequest="80"
+                                   HeightRequest="80"
+                                   Grid.Column="0"
+                                   Background="#F8F8F8"
+                                   
+                                   />
+
+                                <StackLayout Grid.Column="1">
+                                    <Grid>
+                                        <Label Grid.Row="0"
+                                       Text="{Binding Name}"
+                                       FontAttributes="Bold" />
+
+                                        <Label Grid.Row="1"
+                                       Text="{Binding Description}"
+                                       />
+                                    </Grid>
+                                </StackLayout>
+
+                            </Grid>
+
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+
+            </ListView>
+
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
